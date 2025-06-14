@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const oldTestamentBooks = [
   "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
@@ -21,15 +21,27 @@ const newTestamentBooks = [
   "Jude", "Revelation"
 ];
 
-const renderBooksGrid = (books) => (
-  <View style={styles.grid}>
-    {books.map((book) => (
-      <TouchableOpacity key={book} style={styles.bookButton}>
-        <Text style={styles.bookText}>{book}</Text>
-      </TouchableOpacity>
-    ))}
-  </View>
-);
+// Helper to pad arrays to a multiple of 4
+function padToMultipleOfFour(arr) {
+  const remainder = arr.length % 4;
+  if (remainder === 0) return arr;
+  return arr.concat(Array(4 - remainder).fill(''));
+}
+
+const paddedOldTestamentBooks = padToMultipleOfFour(oldTestamentBooks);
+const paddedNewTestamentBooks = padToMultipleOfFour(newTestamentBooks);
+
+const renderBookItem = ({ item }) => {
+  if (!item) {
+    // Render an invisible placeholder
+    return <View style={[styles.bookButton, { backgroundColor: 'transparent', borderWidth: 0 }]} />;
+  }
+  return (
+    <TouchableOpacity style={styles.bookButton}>
+      <Text style={styles.bookText}>{item}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const BibleScreen = () => (
   <ScrollView contentContainerStyle={styles.container}>
@@ -38,9 +50,23 @@ const BibleScreen = () => (
       <TextInput style={styles.search} placeholder="Search" />
     </View>
     <Text style={styles.sectionTitle}>Old Testament</Text>
-    {renderBooksGrid(oldTestamentBooks)}
+    <FlatList
+      data={paddedOldTestamentBooks}
+      renderItem={renderBookItem}
+      keyExtractor={(item, idx) => item ? item : `empty-${idx}`}
+      numColumns={4}
+      scrollEnabled={false}
+      contentContainerStyle={styles.grid}
+    />
     <Text style={styles.sectionTitle}>New Testament</Text>
-    {renderBooksGrid(newTestamentBooks)}
+    <FlatList
+      data={paddedNewTestamentBooks}
+      renderItem={renderBookItem}
+      keyExtractor={(item, idx) => item ? item : `empty-${idx}`}
+      numColumns={4}
+      scrollEnabled={false}
+      contentContainerStyle={styles.grid}
+    />
   </ScrollView>
 );
 
@@ -50,17 +76,18 @@ const styles = StyleSheet.create({
   header: { fontSize: 22, fontWeight: 'bold', flex: 1 },
   search: { borderWidth: 1, borderColor: '#000', padding: 5, width: 100, borderRadius: 4 },
   sectionTitle: { fontWeight: 'bold', marginTop: 15, marginBottom: 5, fontSize: 16 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' },
+  grid: { justifyContent: 'flex-start' },
   bookButton: {
-    width: '22%', // 4 per row with some spacing
-    margin: '1%',
+    flex: 1,
+    margin: 6,
     aspectRatio: 1,
     borderWidth: 1,
     borderColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    minWidth: 0 // Fixes flexbox shrinking issue
   },
   bookText: { fontSize: 12, textAlign: 'center' }
 });
