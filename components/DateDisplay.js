@@ -1,20 +1,32 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const DateDisplay = () => (
-  <View style={styles.container}>
-    <Text style={styles.date}>Date (Month, Year)</Text>
-  </View>
-);
+const DateDisplay = () => {
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.date}>{formattedDate}</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginVertical: 10,
+    padding: 10,
   },
   date: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
+    color: '#333',
   },
 });
 
