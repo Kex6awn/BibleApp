@@ -61,11 +61,11 @@ const styles = StyleSheet.create({
   dropdown: {
     position: 'absolute',
     bottom: 40, // Adjust as needed
-    right: 0,
+    right: 8,
     backgroundColor: '#fff',
     borderRadius: 8,
-    padding: 10,
-    elevation: 5,
+    padding: 4,
+    elevation: 10,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
