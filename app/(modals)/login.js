@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function ActivitiesPage() {
+export default function LoginPage() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Your Activities</Text>
+      <Text style={styles.title}>Login Here</Text>
       {/* Add actual activity content here */}
     </View>
   );
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
   },
-});
+}); 
