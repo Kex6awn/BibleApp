@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import CustomTabBar from '../../components/CustomTabBar';
 
 export default function EditPage() {
   const router = useRouter();
@@ -11,7 +10,6 @@ export default function EditPage() {
       </Pressable>
       <Text style={styles.title}>Edit Profile</Text>
       {/* Add your form or edit fields here */}
-      <CustomTabBar />
     </View>
   );
 }

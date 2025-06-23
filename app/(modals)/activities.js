@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import CustomTabBar from '../../components/CustomTabBar';
 
 export default function ActivitiesPage() {
   const router = useRouter();
@@ -11,7 +10,6 @@ export default function ActivitiesPage() {
       </Pressable>
       <Text style={styles.title}>Your Activities</Text>
       {/* Add actual activity content here */}
-      <CustomTabBar />
     </View>
   );
 }
