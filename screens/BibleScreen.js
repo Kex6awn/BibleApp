@@ -38,7 +38,7 @@ const renderBookItem = (router) => ({ item }) => {
     return <View style={[styles.bookButton, { backgroundColor: 'transparent', borderWidth: 0 }]} />;
   }
   return (
-    <TouchableOpacity style={styles.bookButton} onPress={() => router.push({ pathname: '/chapter', params: { book: item } })}>
+    <TouchableOpacity style={styles.bookButton} onPress={() => router.push(`/chapter/${encodeURIComponent(item)}`)}>
       <Text style={styles.bookText}>{item}</Text>
     </TouchableOpacity>
   );
