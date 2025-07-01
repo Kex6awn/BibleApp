@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -31,44 +32,47 @@ function padToMultipleOfFour(arr) {
 const paddedOldTestamentBooks = padToMultipleOfFour(oldTestamentBooks);
 const paddedNewTestamentBooks = padToMultipleOfFour(newTestamentBooks);
 
-const renderBookItem = ({ item }) => {
+const renderBookItem = (router) => ({ item }) => {
   if (!item) {
     // Render an invisible placeholder
     return <View style={[styles.bookButton, { backgroundColor: 'transparent', borderWidth: 0 }]} />;
   }
   return (
-    <TouchableOpacity style={styles.bookButton}>
+    <TouchableOpacity style={styles.bookButton} onPress={() => router.push({ pathname: '/chapter', params: { book: item } })}>
       <Text style={styles.bookText}>{item}</Text>
     </TouchableOpacity>
   );
 };
 
-const BibleScreen = () => (
-  <ScrollView contentContainerStyle={styles.container}>
-    <View style={styles.headerRow}>
-      <Text style={styles.header}>Bible Here</Text>
-      <TextInput style={styles.search} placeholder="Search" />
-    </View>
-    <Text style={styles.sectionTitle}>Old Testament</Text>
-    <FlatList
-      data={paddedOldTestamentBooks}
-      renderItem={renderBookItem}
-      keyExtractor={(item, idx) => item ? item : `empty-${idx}`}
-      numColumns={4}
-      scrollEnabled={false}
-      contentContainerStyle={styles.grid}
-    />
-    <Text style={styles.sectionTitle}>New Testament</Text>
-    <FlatList
-      data={paddedNewTestamentBooks}
-      renderItem={renderBookItem}
-      keyExtractor={(item, idx) => item ? item : `empty-${idx}`}
-      numColumns={4}
-      scrollEnabled={false}
-      contentContainerStyle={styles.grid}
-    />
-  </ScrollView>
-);
+const BibleScreen = () => {
+  const router = useRouter();
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.headerRow}>
+        <Text style={styles.header}>Bible Here</Text>
+        <TextInput style={styles.search} placeholder="Search" />
+      </View>
+      <Text style={styles.sectionTitle}>Old Testament</Text>
+      <FlatList
+        data={paddedOldTestamentBooks}
+        renderItem={renderBookItem(router)}
+        keyExtractor={(item, idx) => item ? item : `empty-${idx}`}
+        numColumns={4}
+        scrollEnabled={false}
+        contentContainerStyle={styles.grid}
+      />
+      <Text style={styles.sectionTitle}>New Testament</Text>
+      <FlatList
+        data={paddedNewTestamentBooks}
+        renderItem={renderBookItem(router)}
+        keyExtractor={(item, idx) => item ? item : `empty-${idx}`}
+        numColumns={4}
+        scrollEnabled={false}
+        contentContainerStyle={styles.grid}
+      />
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: { padding: 10 },
