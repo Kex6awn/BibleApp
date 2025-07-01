@@ -1,6 +1,6 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Mapping of book names to chapter counts
 const chapterCounts = {
@@ -28,6 +28,7 @@ function padToMultipleOfFour(arr) {
 
 const ChapterScreen = () => {
   const { book } = useLocalSearchParams();
+  const router = useRouter();
   const chapters = Array.from({ length: chapterCounts[book] }, (_, i) => i + 1);
   const paddedChapters = padToMultipleOfFour(chapters);
 
@@ -44,6 +45,9 @@ const ChapterScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Pressable onPress={() => router.push('/bible')} style={styles.backButton}>
+        <Text style={styles.backText}>{'< Back'}</Text>
+      </Pressable>
       <Text style={styles.header}>{book} - Select Chapter</Text>
       <FlatList
         data={paddedChapters}
@@ -59,7 +63,18 @@ const ChapterScreen = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 10, backgroundColor: '#fff' },
-  header: { fontSize: 22, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    padding: 8,
+    zIndex: 10,
+  },
+  backText: {
+    fontSize: 18,
+    color: '#007AFF',
+  },
+  header: { fontSize: 22, fontWeight: 'bold', marginBottom: 10, textAlign: 'center', marginTop: 60 },
   grid: { justifyContent: 'flex-start' },
   chapterButton: {
     flex: 1,

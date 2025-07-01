@@ -22,14 +22,15 @@ export default function Layout() {
           },
         })}
       >
-        <Tabs.Screen name="index" options={{ title: 'Home' }} />
-        <Tabs.Screen name="calendar" options={{ title: 'Calendar' }} />
-        <Tabs.Screen name="bible" options={{ title: 'Bible' }} />
-        <Tabs.Screen name="chapter/[book]" options={{ href: null }} />
+        <Tabs.Screen name="index" options={{ title: 'Home', headerShown: false }} />
+        <Tabs.Screen name="calendar" options={{ title: 'Calendar', headerShown: false }} />
+        <Tabs.Screen name="bible" options={{ title: 'Bible', headerShown: false }} />
+        <Tabs.Screen name="chapter/[book]" options={{ href: null, headerShown: false }} />
         <Tabs.Screen
           name="account"
           options={{
             title: 'Account',
+            headerShown: false,
             tabBarButton: () => (
               <Pressable
                 onPress={() => setShowDropdown(prev => !prev)}
@@ -40,6 +41,9 @@ export default function Layout() {
             ),
           }}
         />
+        <Tabs.Screen name="edit" options={{ href: null, headerShown: false }} />
+        <Tabs.Screen name="activities" options={{ href: null, headerShown: false }} />
+        <Tabs.Screen name="login" options={{ href: null, headerShown: false }} />
       </Tabs>
 
       {/* Dropdown Menu */}
